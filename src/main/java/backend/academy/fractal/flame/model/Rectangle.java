@@ -18,4 +18,19 @@ public record Rectangle(double x, double y, double width, double height) {
             getRandomDouble(y, y + height)
         );
     }
+
+    /**
+     * Crops a given point to fit within the screen coordinates.
+     * The point is scaled relative to the rectangle's dimensions and mapped to the screen's width and height.
+     *
+     * @param point        The point to be cropped.
+     * @param screenWidth  The width of the screen.
+     * @param screenHeight The height of the screen.
+     * @return A new point with coordinates adjusted to the screen size.
+     */
+    public Point cropToScreen(Point point, double screenWidth, double screenHeight) {
+        double screenX = (point.x() - x) / this.width * screenWidth;
+        double screenY = (point.y() - y) / this.height * screenHeight;
+        return new Point(screenX, screenY);
+    }
 }
