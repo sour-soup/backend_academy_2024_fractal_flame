@@ -8,6 +8,7 @@ import backend.academy.fractal.flame.renderer.ParallelRenderer;
 import backend.academy.fractal.flame.renderer.Renderer;
 import backend.academy.fractal.flame.utils.ImageUtils;
 import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.UnixStyleUsageFormatter;
 import lombok.experimental.UtilityClass;
 
@@ -27,9 +28,15 @@ public class Main {
         JCommander jCommander = JCommander.newBuilder()
             .addObject(parameters)
             .build();
-
-        jCommander.parse(args);
         jCommander.setUsageFormatter(new UnixStyleUsageFormatter(jCommander));
+
+        try {
+            jCommander.parse(args);
+        } catch (ParameterException e) {
+            System.err.println(e.getMessage());
+            jCommander.usage();
+            System.exit(1);
+        }
 
         if (parameters.help()) {
             jCommander.usage();
